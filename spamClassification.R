@@ -19,3 +19,5 @@ binaryPredTable
 CrossTable(binaryPred, test$spam, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
 
 # Naive Bayes Classifier - Real Valued Attributes
+scaled.test <- scale(test[,1:56])
+scaled.train <- scale(train[,1:56]) 
