@@ -47,11 +47,15 @@ for i in xrange(len(img_filenames_noncars)):
   img_desc_orb.append(orb_desc)
   img_labels.append(1)
 
+print img_desc_surf
+
 knn_surf = cv2.KNearest()
-knn_surf.train(img_kps_surf, img_labels)
+knn_surf.train(np.array(img_desc_surf, dtype = np.float32), img_labels)
+#knn_surf.train(np.array(img_desc_surf, dtype = np.float32), img_labels)
 
 knn_orb = cv2.KNearest()
-knn_orb.train(img_kps_orb, img_labels)
+knn_orb.train(np.array(img_desc_orb, dtype = np.float32), img_labels)
+#knn_orb.train(np.array(img_desc_orb, dtype = np.float32), img_labels)
 
 img_filenames_test = os.listdir(base_dir_test)
 
@@ -61,11 +65,13 @@ for i in xrange(len(img_filenames_test)):
   img = cv2.imread(full_filename, 0)
   surf_kp, surf_desc = surf.detectAndCompute(img, None)
   orb_kp, orb_desc = orb.compute(img, orb_kp)
-  surf_ret, surf_result, surf_neighbours, surf_dist = knn_surf.find_nearest(surf_kp, k = 5)
+  #surf_ret, surf_result, surf_neighbours, surf_dist = knn_surf.find_nearest(surf_kp, k = 5)
+  surf_ret, surf_result, surf_neighbours, surf_dist = knn_surf.find_nearest(surf_desc, k = 5)
   print "Surf Result: " + str(surf_result)
   print "Surf Neighbors: " + str(surf_neighbours)
   print "Surf Distance: " + str(surf_dist)
-  orb_ret, orb_result, org_neighbours, orb_dist = knn_orb.find_nearest(org_kp, k = 5)
+  #orb_ret, orb_result, org_neighbours, orb_dist = knn_orb.find_nearest(org_kp, k = 5)
+  orb_ret, orb_result, org_neighbours, orb_dist = knn_orb.find_nearest(org_desc, k = 5)
   print "Orb Result: " + str(orb_result)
   print "Orb Neighbors: " + str(org_neighbours)
   print "Orb Distance: " + str(orb_dist)
