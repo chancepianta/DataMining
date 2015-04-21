@@ -37,14 +37,16 @@ for i in xrange(len(img_filenames_test)):
   has_car_orb = False
   full_filename = base_dir_test + img_filenames_test[i]
   print full_filename
+  img = cv2.imread(full_filename, 0)
   surf_kp, surf_desc = surf.detectAndCompute(img, None)
   orb_kp, orb_desc = orb.compute(img, orb_kp)
-  img = cv2.imread(full_filename, 0)
   matches_surf = bf_norm_l2.match(img_desc_surf[i], surf_desc)
+  print "Matches SURF: " + str(len(matches_surf))
   matches_orb = bf_norm_l2.match(img_desc_orb[i], orb_desc)
-  if len(matches_surf) > 3:
+  print "Matches ORB: " + str(len(matches_orb))
+  if len(matches_surf) > 100:
     has_car_surf = True
-  if len(matches_orb) > 3:
+  if len(matches_orb) > 350:
     has_car_orb = True
   print full_filename + " has car? Surf: " + str(has_car_surf) + " Orb: " + str(has_car_orb)
 
