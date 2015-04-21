@@ -1,2 +1,4 @@
 cars_train/**
 cars_test/**
+cars/**
+noncars/**
